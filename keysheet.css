@@ -1,0 +1,23 @@
+html,body{margin: 0; padding: 0;}
+#key {width: 41em; margin: 3em auto 0 auto; display: block; height: 30em;}
+.instructions {margin: 1em 3em; text-align: center; font-size: 80%;}
+
+body {
+	font-family: Futura,sans-serif;
+	font-size: 20px;
+}
+
+@media print{
+	.box {padding: 0.3em; margin-left: 0 !important;}
+	#regen {display: none;}
+}
+
+@media screen {
+	.box {font-size: 140%;}
+}
+
+#regen {position: fixed; font-size: 120%; top: 0.5em; right: 0.8em;}
+
+.box {width: 26em; padding: 0.5em; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; white-space: pre; position: relative; margin: 0 auto;}
+.box>.qr {display: block; position: absolute; right: 0.7em; top: 0.8em; height: 4.5em; width: 4.5em;}
+.fingerprint {font-family: Lucidatypewriter,"Andale Mono",Fixed,monospace; font-size: 120%;}

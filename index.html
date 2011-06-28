@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<title>OpenPGP key to paper</title>
+<script type="text/javascript" src="base64.js"></script>
+<script type="text/javascript" src="sha1.js"></script>
+<script type="text/javascript" src="PGpubkey.js"></script>
+<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="qrcode.js"></script>
+<script type="text/javascript" src="keysheet.js"></script>
+<link rel="stylesheet" href="keysheet.css" type="text/css" />
+</head>
+<body id="container">
+<form id="keyForm">
+<p class="instructions">Paste your public PGP key below.<br />
+It must start with <code>-----BEGIN PGP PUBLIC KEY BLOCK-----</code><br />
+and end with <code>-----END PGP PUBLIC KEY BLOCK-----</code>.<br />
+With gpg:&nbsp;&nbsp;<code>gpg -a --export you@example.net</code>
+</p>
+<textarea autofocus="autofocus" placeholder="Public PGP key, ASCII armored" id="key" name="key"></textarea>
+<p class="instructions">
+<strong>Don't forget to check that the fingerprint in the printout matches the one you expect!</strong></p>
+
+</form>
+
+</body>
+</html>
