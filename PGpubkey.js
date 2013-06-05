@@ -152,7 +152,10 @@ function getPublicKey(text)
     }
     else if(tag==13)   // user id
     {
-      res.user=s.substr(i,len);
+      if (!res.user) {
+        res.user=s.substr(i,len);
+      }
+
       i+=len;
     }
     else
