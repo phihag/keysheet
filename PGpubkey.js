@@ -13,6 +13,28 @@
  * provided with the application or distribution.
  */
 
+ function decodeUTF8(bytestring) {
+  var res = '';
+  for (var i=0;i < bytestring.length;i++) {
+    var b = bytestring.charCodeAt(i);
+    if ((b >= 0xc0) && (b < 0xe0) && (i + 1 < bytestring.length)) {
+      // Two-digit sequence
+      b = ((b & 0x1f) << 6) | (bytestring.charCodeAt(i+1) & 0x3f);
+      i++;
+    } else if ((b >= 0xe0) && (b < 0xf0) && (i + 2 < bytestring.length)) {
+      // Three-digit sequence
+      b = (
+        ((b & 0x0f) << 12) |
+        ((bytestring.charCodeAt(i+1) & 0x3f) << 6) |
+        (bytestring.charCodeAt(i+2) & 0x3f));
+      i += 2;
+    }
+    res += String.fromCharCode(b);
+  }
+  return res;
+}
+
+
 function s2hex(s)
 {
   var result = '';
@@ -152,9 +174,10 @@ function getPublicKey(text)
     }
     else if(tag==13)   // user id
     {
-      res.user_ids.push(s.substr(i,len));
+      var uid = decodeUTF8(s.substr(i, len));
+      res.user_ids.push(uid);
       if (!res.user) {
-        res.user=s.substr(i,len);
+        res.user = uid;
       }
 
       i+=len;
