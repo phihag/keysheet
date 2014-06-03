@@ -26,7 +26,7 @@ function s2hex(s)
 
 function getPublicKey(text)
 {
-  var res = {};
+  var res = {user_ids: []};
   var i= text.indexOf('-----BEGIN PGP PUBLIC KEY BLOCK-----');
   if(i == -1)
   {
@@ -152,6 +152,7 @@ function getPublicKey(text)
     }
     else if(tag==13)   // user id
     {
+      res.user_ids.push(s.substr(i,len));
       if (!res.user) {
         res.user=s.substr(i,len);
       }

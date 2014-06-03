@@ -37,32 +37,49 @@ function genQRImg(text) {
 }
 
 function genNew() {
-	$('.box').remove();
+	removeRender();
 	$('#regen').remove();
 	$('#keyForm').show();
+	$('#id_selector').remove();
 	return false;
 }
 
-function onChange(e) {
-	var keyField = $('#key');
-	var armored = keyField.val();
-	if (typeof(armored) == 'undefined' || armored == '') return;
-	
-	var k = getPublicKey(armored);
-	if (!k) return;
-	
+function parseEmail(uid) {
+	return uid.split(/ ?</)[1].replace(/>/, '');
+}
+
+function removeRender() {
+	$('.box').remove();
+}
+
+var previousKey;
+function renderKey(k, emails) {
+	removeRender();
+	if (typeof k == 'undefined') {
+		k = previousKey;
+	} else {
+		previousKey = k;
+	}
+
 	var tmp = k.user.split(/ ?</);
 	var user = tmp[0];
-	var email = tmp[1].replace(/>/, '');
+
+	var email_str;
+	if (typeof emails == 'undefined') {
+		email_str = parseEmail(k.user);
+	} else {
+		email_str = emails.join('\n');
+	}
+
 	var fingerprint = k.fp.toUpperCase().replace(/([^ ]{20})/g, '$1\n').replace(/([0-9A-F]{4})/g, '$1 ').replace(/^\s+|\s+$/g, '');
 	var keyId = '0x' + k.fp.substr(24);
 
-	keyField.val('');
 	$('#keyForm').hide();
 	var qrText = 'http://pgp.mit.edu:11371/pks/lookup?op=get&search=' + keyId;
 	var container = $('#container');
 	var qrImg = genQRImg(qrText);
-	for (var i = 0;i < 7;i++) {
+
+	var renderBox = function() {
 		var box = $('<div class="box" />');
 		
 		var userField = $('<div class="user" />');
@@ -70,7 +87,7 @@ function onChange(e) {
 		box.append(userField);
 		
 		var emailField = $('<div class="email" />');
-		emailField.text(email);
+		emailField.text(email_str);
 		box.append(emailField);
 
 		var fpField = $('<div class="fingerprint" />');
@@ -81,8 +98,46 @@ function onChange(e) {
 			var qrField = genQRField(qrImg);
 			box.append(qrField);
 		}
+		return box;
+	}
 
-		container.append(box);
+	firstBox = renderBox();
+	container.append(firstBox);
+	var boxCount = parseInt(Math.floor(1210 / container.height()));
+
+	for (var i = 1;i < boxCount;i++) {
+		container.append(renderBox());
+	}
+}
+
+function onChange(e) {
+	var keyField = $('#key');
+	var armored = keyField.val();
+	if (typeof(armored) == 'undefined' || armored == '') return;
+
+	var k = getPublicKey(armored);
+	if (!k) return;
+
+	renderKey(k);
+	keyField.val('');
+
+	if (k.user_ids.length > 1) {
+		var id_selector = $('<form id="id_selector" />');
+		$.each(k.user_ids, function (idx, uid) {
+			var lbl = $('<label>');
+			var email = parseEmail(uid);
+			lbl.text(email);
+			var cb = $('<input type="checkbox">');
+			cb.attr('data-email', email);
+			if (idx == 0) {
+				cb.attr('checked', 'checked');
+			}
+			lbl.prepend(cb);
+			cb.change(onEmailSelectionChange);
+
+			id_selector.append(lbl);
+		});
+		$('body').append(id_selector);
 	}
 	
 	var regenLink = $('<a href="#" id="regen">Generate another one</a>');
@@ -92,6 +147,14 @@ function onChange(e) {
 	if (!e) var e = window.event;
 	e.cancelBubble = true;
 	if (e.stopPropagation) e.stopPropagation();
+}
+
+function onEmailSelectionChange() {
+	var emails = $.map($.makeArray($('#id_selector input:checked')),
+		function(n) {
+			return n.getAttribute('data-email');
+		});
+	renderKey(undefined, emails);
 }
 
 $(document).ready(function() {
