@@ -23,7 +23,7 @@ body {
 .box>.qr {display: block; position: absolute; right: 0.7em; top: 0.8em; height: 4.5em; width: 4.5em;}
 .fingerprint {font-family: Lucidatypewriter,"Andale Mono",Fixed,monospace; font-size: 120%;}
 
-#id_selector {
+#options {
 	position: fixed; right: 0.8em; top: 3em;
 	background: #fff; background: rgba(255, 255, 255, 0.98);
 	padding: 5px;

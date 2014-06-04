@@ -48,12 +48,17 @@ function parseEmail(uid) {
 	return uid.split(/ ?</)[1].replace(/>/, '');
 }
 
+function parseName(uid) {
+	return uid.split(/ ?</)[0];
+}
+
 function removeRender() {
 	$('.box').remove();
 }
 
 var previousKey;
-function renderKey(k, emails) {
+var previousName;
+function renderKey(k, name, emails) {
 	removeRender();
 	if (typeof k == 'undefined') {
 		k = previousKey;
@@ -61,8 +66,11 @@ function renderKey(k, emails) {
 		previousKey = k;
 	}
 
-	var tmp = k.user.split(/ ?</);
-	var user = tmp[0];
+	if (typeof name == 'undefined') {
+		name = previousName;
+	} else {
+		previousName = name;
+	}
 
 	var email_str;
 	if (typeof emails == 'undefined') {
@@ -83,7 +91,7 @@ function renderKey(k, emails) {
 		var box = $('<div class="box" />');
 		
 		var userField = $('<div class="user" />');
-		userField.text(user);
+		userField.text(name);
 		box.append(userField);
 		
 		var emailField = $('<div class="email" />');
@@ -118,7 +126,11 @@ function onChange(e) {
 	var k = getPublicKey(armored);
 	if (!k) return;
 
-	renderKey(k);
+	var user = parseName(k.user);
+	if (user.length > 40) {
+		user = user.replace(/\s*\(.*/, '');
+	}
+	renderKey(k, user);
 	keyField.val('');
 
 	if (k.user_ids.length > 1) {
@@ -137,7 +149,7 @@ function onChange(e) {
 
 			id_selector.append(lbl);
 		});
-		$('body').append(id_selector);
+		$('#options').append(id_selector);
 	}
 	
 	var regenLink = $('<a href="#" id="regen">Generate another one</a>');
@@ -154,7 +166,7 @@ function onEmailSelectionChange() {
 		function(n) {
 			return n.getAttribute('data-email');
 		});
-	renderKey(undefined, emails);
+	renderKey(undefined, undefined, emails);
 }
 
 $(document).ready(function() {
