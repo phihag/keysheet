@@ -158,6 +158,14 @@ function onChange(e) {
 	regenLink.click(genNew);
 	$('body').append(regenLink);
 
+	var printContainer = $('<div id="print_container">');
+	var printBtn = $('<button id="print">Print</button>');
+	printBtn.click(function() {
+		window.print();
+	});
+	printContainer.append(printBtn);
+	$('#options').append(printContainer);
+
 	if (!e) e = window.event;
 	e.cancelBubble = true;
 	if (e.stopPropagation) e.stopPropagation();
