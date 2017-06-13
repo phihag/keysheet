@@ -55,13 +55,6 @@ body {
 	}
 }
 
-#regen {
-	position: fixed;
-	font-size: 120%;
-	top: 0.5em;
-	right: 0.8em;
-}
-
 .box {
 	width: 26em;
 	padding: 0.5em;
@@ -86,6 +79,15 @@ body {
 	font-size: 120%;
 }
 
+#regen {
+	position: fixed;
+	font-size: 120%;
+	padding: 0.2em;
+	top: 0.5em;
+	right: 0.8em;
+	background: #fff;
+	background: rgba(255, 255, 255, 0.98);
+}
 #options {
 	position: fixed;
 	right: 0.8em;
