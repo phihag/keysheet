@@ -1,0 +1,15 @@
+{
+  "name": "keysheet",
+  "author": "Philipp Hagemeister <phihag@phihag.de>",
+  "description": "Generate PGP public key paper slips (powers keysheet.net)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/phihag/keysheet.git"
+  },
+  "devDependencies": {
+    "eslint": "*",
+    "stylelint": "*",
+    "stylelint-config-standard": "*"
+  },
+  "private": true
+}

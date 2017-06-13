@@ -1,3 +1,5 @@
+'use strict';
+
 function genQRField(qrImg) {
 	if (!qrImg) return false;
 	var res = $('<img class="qr" />');
@@ -107,9 +109,9 @@ function renderKey(k, name, emails) {
 			box.append(qrField);
 		}
 		return box;
-	}
+	};
 
-	firstBox = renderBox();
+	var firstBox = renderBox();
 	container.append(firstBox);
 	var boxCount = parseInt(Math.floor(1210 / container.height()));
 
@@ -156,7 +158,7 @@ function onChange(e) {
 	regenLink.click(genNew);
 	$('body').append(regenLink);
 
-	if (!e) var e = window.event;
+	if (!e) e = window.event;
 	e.cancelBubble = true;
 	if (e.stopPropagation) e.stopPropagation();
 }
