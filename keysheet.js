@@ -113,7 +113,7 @@ function renderKey(k, name, emails) {
 
 	var firstBox = renderBox();
 	container.append(firstBox);
-	var boxCount = parseInt(Math.floor(1210 / container.height()));
+	var boxCount = parseInt(Math.floor(1800 / container.height()));
 
 	for (var i = 1;i < boxCount;i++) {
 		container.append(renderBox());
