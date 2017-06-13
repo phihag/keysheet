@@ -6,27 +6,34 @@ body {
 
 @page {
 	size: portrait;
-	size: portrait; A4;
+	size: portrait A4;
 	margin: 0;
 }
 
 
 body {
-	font-family: Futura, sans-serif;
-	font-size: 20px;
+	font-family: "Futura", sans-serif;
+	font-size: 24px;
 }
 
 #key {
-	width: 41em;
+	font-size: 20px;
+	width: 70ch;
+	max-width: 70vw;
 	margin: 3em auto 0 auto;
 	display: block;
-	height: 30em;
+	height: 22em;
 }
 
 .instructions {
 	margin: 1em 3em;
 	text-align: center;
-	font-size: 80%;
+}
+
+@media (max-width: 1000px) {
+	.instructions {
+		text-align: justify;
+	}
 }
 
 
@@ -75,7 +82,7 @@ body {
 }
 
 .fingerprint {
-	font-family: Lucidatypewriter, "Andale Mono", Fixed, monospace;
+	font-family: "Lucidatypewriter", "Andale Mono", "Fixed", monospace;
 	font-size: 120%;
 }
 
